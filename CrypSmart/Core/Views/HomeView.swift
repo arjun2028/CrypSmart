@@ -8,8 +8,34 @@
 import SwiftUI
 
 struct HomeView: View {
+    @State private var showPortfolio:Bool=false
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack{
+            Color.theme.background.ignoresSafeArea()
+            VStack{
+                homeHeader
+                Spacer(minLength: 0)
+            }
+            
+        }
+    }
+}
+
+extension HomeView{
+    private var homeHeader:some View{
+        HStack{
+            CircleButtonView(iconName: showPortfolio ? "plus" : "info")
+            Spacer()
+            Text(showPortfolio ? "Portfolio" :"Live Prices").font(.headline)
+                .fontWeight(.heavy)
+                .foregroundStyle(Color.theme.ascent)
+            Spacer()
+            CircleButtonView(iconName: showPortfolio ? "chevron.left" : "chevron.right")
+                .onTapGesture {
+                    showPortfolio.toggle()
+                }
+            
+        }.padding(.horizontal)
     }
 }
 
