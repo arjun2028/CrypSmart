@@ -5,12 +5,7 @@
 //  Created by Arjun Singh on 19/05/25.
 //
 
-//
-//  PreviewProvider.swift
-//  SwiftfulCrypto
-//
-//  Created by Nick Sarno on 5/9/21.
-//
+
 
 import Foundation
 import SwiftUI
@@ -229,5 +224,6 @@ class DeveloperPreview {
        priceChangePercentage24HInCurrency: 3952.64,
        currentHoldings: 1.5)
     
+    let vm=HomeViewModel()
 }
 

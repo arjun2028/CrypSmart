@@ -8,12 +8,45 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject private var vm:HomeViewModel
     @State private var showPortfolio:Bool=false
     var body: some View {
         ZStack{
             Color.theme.background.ignoresSafeArea()
             VStack{
                 homeHeader
+                
+                HStack{
+                    Text("Coin")
+                    Spacer()
+                    if showPortfolio{
+                        Text("Holdings")
+                    }
+                    Text("Price").frame(width: UIScreen.main.bounds.width/3.5,alignment: .trailing)
+                }.padding(.horizontal)
+                    .font(.caption)
+                    .foregroundStyle(Color.theme.secondaryText)
+                
+                if !showPortfolio{
+                    List{
+                        
+                        ForEach(vm.allcoins){
+                            coin in
+                            CoinRowView(coin: coin, showHolding: false)
+                        }
+                    }.listStyle(.plain).transition(.move(edge: .leading))
+                    
+                }
+                if showPortfolio{
+                    List{
+                        
+                        ForEach(vm.portfolioCoins){
+                            coin in
+                            CoinRowView(coin: coin, showHolding: false)
+                        }
+                    }.listStyle(.plain).transition(.move(edge: .leading))
+                    
+                }
                 Spacer(minLength: 0)
             }
             
@@ -40,5 +73,6 @@ extension HomeView{
 }
 
 #Preview {
-    HomeView()
+    HomeView().environmentObject(DeveloperPreview.instance.vm)
+        
 }
