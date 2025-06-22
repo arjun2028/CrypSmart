@@ -14,8 +14,9 @@ struct HomeView: View {
         ZStack{
             Color.theme.background.ignoresSafeArea()
             VStack{
-                homeHeader
                 
+                homeHeader
+                SearchBar(searchText: $vm.searchText).padding()
                 HStack{
                     Text("Coin")
                     Spacer()
