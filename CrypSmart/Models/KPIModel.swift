@@ -7,8 +7,18 @@
 
 import Foundation
 
-struct KPIModel{
+struct KPIModel:Identifiable{
+    let id = UUID()
     let title:String
     let value:String
-    let percentChange:Double
+    let percentChange:Double?
+    
+    init(title: String, value: String, percentChange: Double?=nil) {
+        self.title = title
+        self.value = value
+        self.percentChange = percentChange
+    }
 }
+
+
+//let newModel=KPIModel(title: <#T##String#>, value: <#T##String#>, percentChange: <#T##Double#>)

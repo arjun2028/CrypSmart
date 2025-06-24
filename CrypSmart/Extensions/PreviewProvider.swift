@@ -23,7 +23,8 @@ class DeveloperPreview {
     static let instance = DeveloperPreview()
     private init() { }
     
-    
+    let kpi1=KPIModel(title: "Net Value", value: "$12.5bn", percentChange: 23.33)
+    let kpi2=KPIModel(title: "Gross profit", value: "11.3bn")
     let coin = CoinModel(
        id: "bitcoin",
        symbol: "btc",

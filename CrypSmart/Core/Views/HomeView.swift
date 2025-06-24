@@ -16,6 +16,7 @@ struct HomeView: View {
             VStack{
                 
                 homeHeader
+                HomeStatsView(showPortfolio: $showPortfolio)
                 SearchBar(searchText: $vm.searchText).padding()
                 HStack{
                     Text("Coin")
