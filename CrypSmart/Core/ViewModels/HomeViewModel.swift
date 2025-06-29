@@ -10,16 +10,12 @@ import Combine
 
 class HomeViewModel: ObservableObject,Observable {
     @Published var  statistics:[KPIModel]=[
-        KPIModel(title: "Title", value: "Value", percentChange: 2),
-        KPIModel(title: "Title", value: "Value")
-        ,KPIModel(title: "Title", value: "Value"),
-        KPIModel(title: "Title", value: "Value", percentChange: 7)
-        
     ]
     @Published var allcoins: [CoinModel] = []
     @Published var portfolioCoins: [CoinModel] = []
     @Published var searchText:String=""
     private let coinDataService = CoinDataService()
+    private let marketDataService=MarketDataService()
     private var cancellables = Set<AnyCancellable>()
     
     init() {
@@ -55,6 +51,38 @@ class HomeViewModel: ObservableObject,Observable {
                 self?.allcoins = filteredCoins
             }
             .store(in: &cancellables)
+        
+        marketDataService.$marketData
+            .map{
+                (MarketData)->[KPIModel] in
+                
+                var stats:[KPIModel]=[]
+                guard let data=MarketData else{
+                    return stats
+                }
+                
+                let marketCap=KPIModel(title: "Market Cap", value: data.marketCap, percentChange: data.marketCapChangePercentage24HUsd)
+                let volume=KPIModel(title: "24h Volume", value: data.volume)
+                let btcDominance=KPIModel(title: "BTC Dominance", value: data.btcDominance)
+                let portfolio=KPIModel(title: "Portfolio Value", value: "$0.00", percentChange: 0)
+                
+                stats.append(contentsOf: [
+                    
+                    marketCap,
+                    volume,
+                    btcDominance,
+                    portfolio
+                ])
+                
+                return stats
+            }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] returnedStats in
+                self?.statistics=returnedStats
+            }
+            .store(in: &cancellables)
+            
+
     }
 
 }
